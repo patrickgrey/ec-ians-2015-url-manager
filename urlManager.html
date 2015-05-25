@@ -40,6 +40,8 @@
             
             module.init = function () {
                 var url = this.getQueryVariable('url');
+                
+                if(!url) {return;}
                 // If current URL parameter exists in redirectionDictionary
                 // redirect document to the value of that key.
                 // Else just continue to submitted URL parameter.
