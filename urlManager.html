@@ -39,20 +39,22 @@
             };
             
             module.init = function () {
-                var url = this.getQueryVariable('url');
                 
-                console.log(url);
-                // If current URL parameter exists in redirectionDictionary
-                // redirect document to the value of that key.
-                // Else just continue to submitted URL parameter.
-                console.log(redirectionDictionary[url]);
-                if (redirectionDictionary[url] && localStorage.getItem('um-links-status') === 'broken') {
-                    this.analytics(redirectionDictionary[url], document.location);
-                    //document.location = redirectionDictionary[url];
-                }
-                else {
-                    this.analytics(url, document.location);
-                    //document.location = url;
+                var url = this.getQueryVariable('url');
+                if (url) {
+                    // console.log(url);
+                    // If current URL parameter exists in redirectionDictionary
+                    // redirect document to the value of that key.
+                    // Else just continue to submitted URL parameter.
+                    // console.log(redirectionDictionary[url]);
+                    if (redirectionDictionary[url] && localStorage.getItem('um-links-status') === 'broken') {
+                        this.analytics(redirectionDictionary[url], document.location);
+                        document.location = redirectionDictionary[url];
+                    }
+                    else {
+                        this.analytics(url, document.location);
+                        document.location = url;
+                    }
                 }
                 
                 
