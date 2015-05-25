@@ -1,0 +1,42 @@
+<!DOCTYPE html> <html> <head> <meta charset=utf-8> <meta http-equiv=X-UA-Compatible content="IE=edge"> <title>Links</title> <style>
+            .um-code-links-broken, .um-code-info-broken {
+                display: none;
+            }
+        </style> </head> <body> <p><a href="urlManager.html?url=page1.html" target=_blank>Page 1 (<code>&lt;a href="urlManager.html?url=page1.html" target="_blank"&gt;</code>)</a></p> <p><a href="urlManager.html?url=page2.html" target=_blank>Page 2 (<code>&lt;a href="urlManager.html?url=page2.html" target="_blank"&gt;</code>)</a></p> <p><a href="urlManager.html?url=page3.html" target=_blank>Page 3 (<code>&lt;a href="urlManager.html?url=page3.html" target="_blank"&gt;</code>)</a></p> <p><a href="urlManager.html?url=page4.html" target=_blank>Page 4 (<code>&lt;a href="urlManager.html?url=page4.html" target="_blank"&gt;</code>)</a></p> <p>The links above show the code format that would be used to call the URL manager.</p> <p>The interface below is a simulation of making changes to and uploading the URL Manager redirect list.</p> <label class=um-set-links-original-label for=um-set-links-original><input id=um-set-links-original checked name=link-break type=radio> All links are OK.</label> <label class=um-set-links-broken-label for=um-set-links-broken><input id=um-set-links-broken name=link-break type=radio> Links 1 and 2 are broken and should redirect.</label> <p class=um-code-info-original>How the redirection list would look on the server if there were no broken links:</p> <p class=um-code-info-broken>How the redirection list would look on the server if links 1 and 2 are broken and should be redirected:</p> <p class=um-code-links-original> <code>
+                module.redirectionDictionary = {<br>
+                    <br>
+                };
+                
+            </code> </p> <p class=um-code-links-broken> <code>
+                module.redirectionDictionary = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;'page1.html': 'page1New.html'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;'page2.html': 'page2New.html'<br>
+                };
+            </code> </p> <p>Select the links to see how this code would execute.</p> <script src=https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js></script> <script>
+            function setBroken () {
+                $('.um-code-links-broken, .um-code-info-broken').show();
+                $('.um-code-links-original, .um-code-info-original').hide();
+                localStorage.setItem('um-links-status', 'broken');
+                $('#um-set-links-broken').prop('checked', true);
+            }
+            
+            $('#um-set-links-broken, .um-set-links-broken-label').click(function (e) {
+                setBroken ();
+            });
+            
+            $('#um-set-links-original, .um-set-links-original-label').click(function (e) {
+                $('.um-code-links-original, .um-code-info-original').show();
+                $('.um-code-links-broken, .um-code-info-broken').hide();
+                localStorage.setItem('um-links-status', 'original');
+            });
+            
+            if (!localStorage.getItem('um-links-status')) {
+                localStorage.setItem('um-links-status', 'original');
+            }
+            else if (localStorage.getItem('um-links-status') === 'broken') {
+                setBroken ();
+            }
+            
+            
+            
+        </script> </body> </html>

@@ -1,0 +1,72 @@
+<!doctype html> <html> <head> <meta charset=utf-8> <meta name=description content="URL Manager"> <title>URL Manager</title> <script>
+        
+        var urlManager = (function () {
+            
+            'use strict';
+            
+            var module = {};
+            // Key = original URL, value = URL to redirect to.
+            var redirectionDictionary = {
+                'page1.html': 'page1New.html',
+                'page2.html': 'page2New.html'
+            };
+            
+            module.getQueryVariable = function (key) {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == key){return pair[1];}
+               }
+               return(false);
+            };
+            
+            module.analytics = function (url, originator) {
+                // console.log('window.opener.document.title', window.opener.document.title);
+                var message = 'The following information could be sent to Google Analytics.';
+                if (window.opener) {
+                    message += 'The opener window url is: '+window.opener.document.location.href + '\n';
+                    message += 'The opener window title is: '+window.opener.document.title + '\n';
+                }
+                if (document.referrer) {
+                    message += 'The referrer url is: '+document.referrer + '\n';
+                }
+                window.confirm(message);
+            };
+            
+            module.redirect = function (url) {
+                document.location = originator;
+            };
+            
+            module.init = function () {
+                var url = this.getQueryVariable('url');
+                // If current URL parameter exists in redirectionDictionary
+                // redirect document to the value of that key.
+                // Else just continue to submitted URL parameter.
+                console.log(redirectionDictionary[url]);
+                if (redirectionDictionary[url] && localStorage.getItem('um-links-status') === 'broken') {
+                    this.analytics(redirectionDictionary[url], document.location);
+                    document.location = redirectionDictionary[url];
+                }
+                else {
+                    this.analytics(url, document.location);
+                    document.location = url;
+                }
+                
+                
+                
+                // this.redirectionDictionary[url] ? document.location = this.redirectionDictionary[url] : document.location = url;
+                    
+                    // document.location = this.redirectionDictionary[url];
+                
+                // Check if opener - what are we sending here?
+                
+            };
+            
+            return module;
+            
+        }());
+        
+        urlManager.init();
+        
+    </script> </head> <body> <p>Redirecting...</p> </body> </html> 
